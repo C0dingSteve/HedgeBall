@@ -7,7 +7,7 @@ public class MazeMovement : MonoBehaviour
     // variables
     public float tiltSpeed = 15.0f;
     private float tiltInputY;
-    private float tiltInputX; 
+    private float tiltInputZ; 
 
     void Start()
     {
@@ -18,10 +18,8 @@ public class MazeMovement : MonoBehaviour
     {
         // set tilting input from Unity's input manager
         tiltInputY = Input.GetAxis("Vertical");
-        tiltInputX = Input.GetAxis("Horizontal");
 
-        // maze tilting movement on "Y" & "X" axis
+        // maze tilting movement on "Y" & "Z" axis
         transform.Rotate(Vector3.forward, tiltSpeed * Time.deltaTime * tiltInputY);
-        transform.Rotate(Vector3.right, tiltSpeed * Time.deltaTime * tiltInputX);
     }
 }
