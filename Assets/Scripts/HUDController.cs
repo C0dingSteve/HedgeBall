@@ -13,7 +13,7 @@ public class HUDController : MonoBehaviour
     [SerializeField] private TMP_Text levelTimeText;
     [SerializeField] private TMP_Text winLoseStatusText;
 
-    //[SerializeField] private GameObject maze;
+    [SerializeField] private GameObject maze;
 
     private IEnumerator couroutine;
 
@@ -36,7 +36,7 @@ public class HUDController : MonoBehaviour
         yield return new WaitForSeconds(1f);
         countdownText.gameObject.SetActive(false);
 
-        GameEnv.Instance.maze.GetComponent<MazeControl>().enabled = true; //Enable Controls
+        maze.GetComponent<MazeControl>().enabled = true; //Enable Controls
         levelTimeText.gameObject.SetActive(true);
         
         while (levelTime > 0)
@@ -49,19 +49,13 @@ public class HUDController : MonoBehaviour
         
         winLoseStatusText.gameObject.SetActive(true);
         winLoseStatusText.text = "YOU LOSE!!!";
-        GameEnv.Instance.maze.GetComponent<MazeControl>().enabled = false; //Disable Controls
     }
 
-    public void SetWinBanner()
+    public void setWinBanner()
     {
         StopCoroutine(couroutine);
-        GameEnv.Instance.maze.GetComponent<MazeControl>().enabled = false; //Disable Controls
+        maze.GetComponent<MazeControl>().enabled = false; //Disable Controls
         winLoseStatusText.gameObject.SetActive(true);
         winLoseStatusText.text = "YOU WIN";
-    }
-
-    public void ToggleButtons(bool state)
-    {
-        transform.GetChild(0).gameObject.SetActive(state);
     }
 }

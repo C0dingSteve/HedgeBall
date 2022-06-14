@@ -1,24 +1,25 @@
-using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class BallBehavior : MonoBehaviour
 {
     //private SphereCollider col;
     private Rigidbody rb;
-    public Rigidbody getRb { get { return rb; } }
     private SphereCollider sCol;
     private Transform currMaze;
 
     [SerializeField] private float linearForce = 5f;
-    [SerializeField] private float raycastOffset = 0.01f;
+    [SerializeField] private float raycastOffset = 0.5f;
     [SerializeField] private LayerMask groundLayerMask;
+    [SerializeField] private HUDController hudController;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         sCol = GetComponent<SphereCollider>();
-        currMaze = GameEnv.Instance.maze.transform;
+        currMaze = GameObject.FindGameObjectWithTag("Maze").GetComponent<Transform>();
     }
 
     // Update is called once per frame
@@ -39,19 +40,14 @@ public class BallBehavior : MonoBehaviour
 
     private bool IsGrounded() 
     {
-        //Debug.DrawRay(transform.position, -transform.up * (gameObject.GetComponent<SphereCollider>().radius + raycastOffset), Color.red);
         return Physics.Raycast(rb.position, -currMaze.up, out _, sCol.radius + raycastOffset, groundLayerMask);
     }
 
-    public void ChangeSpeed(float value, float time)
+    private void OnTriggerEnter(Collider other)
     {
-        StartCoroutine(ChangeSpeedDuration(value, time));
-    }
-
-    IEnumerator ChangeSpeedDuration(float value, float time)
-    {
-        linearForce += value;
-        yield return new WaitForSeconds(time);
-        linearForce -= value;
+        if (other.CompareTag("End"))
+        {
+            hudController.setWinBanner();
+        }
     }
 }

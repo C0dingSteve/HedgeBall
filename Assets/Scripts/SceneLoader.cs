@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,19 +10,18 @@ public class SceneLoader: MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    public void LoadLevel()
+    public void LoadPreviousLevel()
     {
-        SceneManager.LoadScene(1);
-        GameManager.manager.InitializeScene();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 
-    public void LoadGameOverMenu() 
+    public void LoadNextLevel()
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
-    public void QuitGame()
+    public void GameOverMenu() 
     {
-        Application.Quit();
+        SceneManager.LoadScene(SceneManager.sceneCount - 1);
     }
 }

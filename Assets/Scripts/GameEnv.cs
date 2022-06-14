@@ -5,36 +5,33 @@ using UnityEngine;
 public sealed class GameEnv
 {
     public static GameEnv instance;
+    private List<GameObject> objects = new(); //dummy list
+    private List<GameObject> checkpoints = new(); //dummy list
+    private List<GameObject> enemies = new(); //dummy list
 
-    public GameObject HUDCanvas {get; set;}
-    public GameObject lights {get; set;}
-    public GameObject ball {get; set;}
-    public GameObject maze {get; set;}
-    public GameObject clouds {get; set;}
-    public GameObject spawnPoint {get; set;}
-    public GameObject endPoint {get; set;}
+    public List<GameObject> Objects { get => objects; }
 
-    private List<GameObject> enemies;
-
-    public static GameEnv Instance
+    public static GameEnv Singleton
     {
         get 
         {
             if (instance == null)
             {
                 instance = new GameEnv();
+                instance.checkpoints.AddRange(GameObject.FindGameObjectsWithTag("checkpoints"));
+                instance.enemies.AddRange(GameObject.FindGameObjectsWithTag("enemies"));
             }
             return instance;
         }
     }
 
-    public void AddEnemies()
+    public void AddObjects(GameObject obj)
     {
-    
+        objects.Add(obj);
     }
 
-    public void RemoveEnemies()
+    public void RemoveObjects(GameObject obj)
     {
-        
+        objects.Remove(obj);
     }
 }
